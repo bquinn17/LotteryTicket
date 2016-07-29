@@ -1,24 +1,24 @@
 .title {
-    background-color: #efefef;
-    border-bottom: 1px solid #dbdbdb;
+    background-color: darkgray;
+    border-bottom: 1px solid #000000;
     text-align-all: center;
 }
 
 .title h1 {
-    color: #393c3d;
+    color: #000000;
     font-size: 24px;
     font-weight: bold;
     align-content: center;
-
 }
 
 .title p {
     font-size: 15px;
     margin-bottom: 13px;
+    color: #060d13;
 }
 
 .body {
-    background-color: #f7f7f7;
+    background: linear-gradient(#99ccff, #132639);;
 }
 
 .body h1 {
