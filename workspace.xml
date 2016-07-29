@@ -40,8 +40,8 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CalculateValue.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/.idea/CalculateValue.js">
+          <file leaf-file-name="CalculateValuePB.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/.idea/CalculateValuePB.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="330">
                   <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
@@ -113,7 +113,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.idea/getfeeddata.js" />
-        <option value="$PROJECT_DIR$/.idea/CalculateValue.js" />
+        <option value="$PROJECT_DIR$/.idea/CalculateValuePB.js" />
         <option value="$PROJECT_DIR$/.idea/main.css" />
         <option value="$PROJECT_DIR$/.idea/MainPage.html" />
       </list>
@@ -199,8 +199,8 @@
     <property name="javascript.nodejs.core.library.configured.version" value="4.4.7" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
   </component>
-  <component name="RunManager" selected="Node.js.CalculateValue.js">
-    <configuration default="false" name="CalculateValue.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="CalculateValue.js" working-dir="$PROJECT_DIR$/.idea">
+  <component name="RunManager" selected="Node.js.CalculateValuePB.js">
+    <configuration default="false" name="CalculateValuePB.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="CalculateValuePB.js" working-dir="$PROJECT_DIR$/.idea">
       <method />
     </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
@@ -251,11 +251,11 @@
       <method />
     </configuration>
     <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Node.js.CalculateValue.js" />
+      <item index="0" class="java.lang.String" itemvalue="Node.js.CalculateValuePB.js" />
     </list>
     <recent_temporary>
       <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.CalculateValue.js" />
+        <item index="0" class="java.lang.String" itemvalue="Node.js.CalculateValuePB.js" />
       </list>
     </recent_temporary>
   </component>
@@ -325,7 +325,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/CalculateValue.js">
+    <entry file="file://$PROJECT_DIR$/.idea/CalculateValuePB.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
