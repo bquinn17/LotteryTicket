@@ -1,0 +1,32 @@
+.title {
+    background-color: #efefef;
+    border-bottom: 1px solid #dbdbdb;
+    text-align-all: center;
+}
+
+.title h1 {
+    color: #393c3d;
+    font-size: 24px;
+    font-weight: bold;
+    align-content: center;
+
+}
+
+.title p {
+    font-size: 15px;
+    margin-bottom: 13px;
+}
+
+.body {
+    background-color: #f7f7f7;
+}
+
+.body h1 {
+    font-family: 'Shift', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.PBheader a{
+    alignment: center;
+}
