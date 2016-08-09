@@ -2,9 +2,12 @@
  * Created by Bryan.Quinn on 7/28/2016.
  *
  * This file is used to calculate the expected value of a
- * Powerball ticket based on the current estimated jackpot
+ * Powerball ticket based on the current estimated jackpot.
  *
- * Note: this file does not yet support the rules of MegaMillions
+ * Note: Due cross domain request issues and lack of API,
+ *     jackpot data must be entered manually.
+ *
+ * Note: this file does not yet support the rules of MegaMillions.
  */
 
 oddsOfWinningJackpot = 1/292201338; // (69 choose 5) * (26 choose 1)
@@ -59,28 +62,42 @@ function numberOfPlayers(thisJackpot, lastJackpot){
     return ticketSales / 2; //$2 per ticket
 }
 
+function getLastJackpot() {
+    //TODO request jackpot from the last drawing
+}
+
 function oddsOfSplittingThePot(jackpot){
     //Returns a value that represents the probability of the size of your
     //jackpot after accounting for the probability of splitting the pot
     //between multiple winners
     //TODO
-    return jackpot;
+    var numOfPlayers = numberOfPlayers(jackpot, getLastJackpot());
+
+    var odds = oddsOfWinningJackpot * numOfPlayers;
+    var numberOfWinners = 1;
+
+    while (odds > 0.00001){ //value is basically negligible past this point
+        odds = odds * Math.pow(oddsOfWinningJackpot, numberOfWinners);
+        numberOfWinners += 1;
+    }
+
+    return jackpot; //- (jackpot * odds);
 }
 
 function setValuesOnPage(expectedValue) {
     document.getElementById("worth").innerHTML += expectedValue.toFixed(2);
-
     document.getElementById("value").innerHTML += (expectedValue - 2).toFixed(2);
 }
 
 function calculateValue(estimatedJackpot){
-    //TODO get estimated jackpot from html on Powerball website
-
+    //TODO add call to request current estimated jackpot
     document.getElementById("jackpot").innerHTML += estimatedJackpot;
 
     var jackPot = translate(estimatedJackpot);
+    var jackpotAfterSplit = oddsOfSplittingThePot(jackPot);
+    var expectedValue = (jackpotAfterSplit * oddsOfWinningJackpot) + withoutJackpot();
 
-    var expectedValue = (jackPot * oddsOfWinningJackpot) + withoutJackpot();
+
     setValuesOnPage(expectedValue);
 }
 
