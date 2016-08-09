@@ -10,8 +10,8 @@
 oddsOfWinningJackpot = 1/292201338; // (69 choose 5) * (26 choose 1)
 
 function translate(numString){
-    numString.replace("$", "");
-    numString.trim();
+    numString = numString.replace("$", "");
+    numString = numString.trim();
     var pieces = numString.split(" ");
     var leadingNumber = 0;
     var trailingWord = "";
@@ -49,32 +49,39 @@ function withoutJackpot(){
 
 function numberOfPlayers(thisJackpot, lastJackpot){
     //Calculate the number of tickets sold
-
     var ticketSales = 0;
     if (lastJackpot > thisJackpot){ //jackpot was won
         ticketSales = thisJackpot - 40000000; //jackpot resets to 40 Million
     } else{
         ticketSales = thisJackpot - lastJackpot;
     }
-
-    /*TODO account for that fact that Powerplay tickets which cost $3*/
+    //TODO account for that fact that Powerplay tickets which cost $3
     return ticketSales / 2; //$2 per ticket
 }
 
-function setValuesOnPage(expectedValue) {
-    var worthText = document.getElementById("worth").innerHTML;
-    document.getElementById("worth").innerHTML = worthText + expectedValue.toFixed(2);
+function oddsOfSplittingThePot(jackpot){
+    //Returns a value that represents the probability of the size of your
+    //jackpot after accounting for the probability of splitting the pot
+    //between multiple winners
+    //TODO
+    return jackpot;
+}
 
-    var valueText = document.getElementById("value").innerHTML;
-    document.getElementById("value").innerHTML = valueText + (expectedValue - 2).toFixed(2);
+function setValuesOnPage(expectedValue) {
+    document.getElementById("worth").innerHTML += expectedValue.toFixed(2);
+
+    document.getElementById("value").innerHTML += (expectedValue - 2).toFixed(2);
 }
 
 function calculateValue(estimatedJackpot){
+    //TODO get estimated jackpot from html on Powerball website
+
+    document.getElementById("jackpot").innerHTML += estimatedJackpot;
+
     var jackPot = translate(estimatedJackpot);
 
     var expectedValue = (jackPot * oddsOfWinningJackpot) + withoutJackpot();
     setValuesOnPage(expectedValue);
-
 }
 
 
