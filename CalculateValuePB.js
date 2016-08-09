@@ -1,5 +1,10 @@
 /**
  * Created by Bryan.Quinn on 7/28/2016.
+ *
+ * This file is used to calculate the expected value of a
+ * Powerball ticket based on the current estimated jackpot
+ *
+ * Note: this file does not yet support the rules of MegaMillions
  */
 
 oddsOfWinningJackpot = 1/292201338; // (69 choose 5) * (26 choose 1)
@@ -43,16 +48,34 @@ function withoutJackpot(){
 }
 
 function numberOfPlayers(thisJackpot, lastJackpot){
+    //Calculate the number of tickets sold
+
     var ticketSales = 0;
     if (lastJackpot > thisJackpot){ //jackpot was won
         ticketSales = thisJackpot - 40000000; //jackpot resets to 40 Million
     } else{
         ticketSales = thisJackpot - lastJackpot;
     }
+
+    /*TODO account for that fact that Powerplay tickets which cost $3*/
     return ticketSales / 2; //$2 per ticket
 }
 
-var jackPot = translate("23.3 Million");
-console.log(jackPot);
+function setValuesOnPage(expectedValue) {
+    var worthText = document.getElementById("worth").innerHTML;
+    document.getElementById("worth").innerHTML = worthText + expectedValue.toFixed(2);
+
+    var valueText = document.getElementById("value").innerHTML;
+    document.getElementById("value").innerHTML = valueText + (expectedValue - 2).toFixed(2);
+}
+
+function calculateValue(estimatedJackpot){
+    var jackPot = translate(estimatedJackpot);
+
+    var expectedValue = (jackPot * oddsOfWinningJackpot) + withoutJackpot();
+    setValuesOnPage(expectedValue);
+
+}
+
 
 

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
         <link rel="shortcut icon" href="src/favicons/favicon.ico" type="image/x-icon" />
         <title>Lottery Ticket Expected Value</title>
 
@@ -13,9 +13,7 @@
         <link rel="stylesheet" href="main.css">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>-->
-
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
@@ -24,6 +22,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="CalculateValuePB.js"></script>
     </head>
 
     <body>
@@ -32,11 +32,10 @@
                 <h1>Expected Value of Your Ticket</h1>
                 <p>This page will tell you, based on probability, how much a lottery ticket is actually worth.</p>
                 <div class="moreInfo">
-                    <p1>For more information on how these numbers are calculated, go
-                        <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">
-                            here.</a>
-                    </p1>
-                    <p2><br>Please note that the article is based on previous Powerball rules, however the concept is still the same.</p2>
+                    <p id="1">For more information on how these numbers are calculated, go
+                        <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9"> here.</a>
+                    </p>
+                    <p id="finePrint"><t>Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
                 </div>
             </div>
         </div>
@@ -67,8 +66,11 @@
                             <p>Current Estimated Jackpot: 478 Million</p>
                             <!-- Option to select <p>$330.6 Million Cash Value</p> -->
                             <p>Cost Per Ticket: $2</p>
-                            <p>Your ticket is Worth: $2.25</p>
-                            <p>Expected Value of Your Ticket: $0.25</p>
+                            <p id="worth">Your ticket is Worth: $</p>
+                            <p id="value">Expected Value of Your Ticket: $</p>
+                            <script>
+                                calculateValue("478 Million");
+                            </script>
                         </div>
                         <!--<div class="calculations">
                             <h1>Show me the math!!</h1>
