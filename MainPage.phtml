@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="src/favicon.ico" type="image/x-icon" />
+        <title>Lottery Ticket Expected Value</title>
+
+        <!-- Bootstrap -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>-->
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="CalculateValuePB.js"></script>
+    </head>
+
+    <body>
+        <div class="title">
+            <div class="container">
+                <h1>Expected Value of Your Ticket</h1>
+                <p>This page will tell you, based on probability, how much a lottery ticket is actually worth.</p>
+                <div class="moreInfo">
+                    <p id="1">This web page was inspired by th article found
+                        <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">here.</a>
+                    </p>
+                    <p id="finePrint">Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
+                    <p id="2">If you want to know how the math works, check out the page source on
+                        <a href="https://github.com/quinnkid123/LotteryTicket">Github.</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="MMheader">
+                            <img src="src/MMLogo.png" vspace="14" style='width: 50%; object-fit: contain'/>
+                            <h1><a href="http://www.megamillions.com/">Mega Millions</a></h1>
+                            <p id="m_jackpot">Current Estimated Jackpot: $</p>
+                            <!--Option to select <p>Cash Option: $13 million</p>-->
+                            <p id="m_price">Cost Per Ticket: $</p>
+                            <p id="m_worth">Based on Probability, Your Ticket is Worth: $</p>
+                            <p id="m_value">Expected Value of Your Ticket: $</p>
+                            <script>calculateValue("m", "45 Million", 1, 1);</script>
+                        </div>
+                        <!--<div class="calculations">
+                            <h1>Show me the math!!</h1>
+                        </div>
+                        <div class="MMTable">
+                            <img src="src/MMWinningTable.png" style='height: 100%; width: 75%; object-fit: contain'/>
+                        </div>-->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="PBheader">
+                            <img src="src/PBLogo.png" style='width: 50%; object-fit: contain'/>
+                            <h1><a href="http://www.powerball.com/pb_home.asp">PowerBall</a></h1>
+                            <p id="p_jackpot">Current Estimated Jackpot: $</p>
+                            <!-- Option to select <p>$330.6 Million Cash Value</p> -->
+                            <p id="p_price">Cost Per Ticket: $</p>
+                            <!-- <p>Number of tickets you purchase-->
+                            <p id="p_worth">Based on probability, Your Ticket is Worth: $</p>
+                            <p id="p_value">Expected Value of Your Ticket: $</p>
+                            <p id="testValue">Value = </p>
+                            <div id="requestValue" style="display: none;"><?php
+                                error_reporting(E_ERROR | E_PARSE);
+                                $dom = new DOMDocument;
+                                $dom -> loadHTMLFile('http://www.powerball.com/pb_home.asp');
+                                $child = $dom -> childNodes;
+                                //print_r($dom);
+                                $xpath = new DomXPath($dom);
+                                $value = $xpath ->
+                                    query('//*[@id="numbers"]/table[1]/tr[2]/td[14]/font/strong');
+
+                                echo htmlspecialchars($value -> item(0) -> nodeValue);
+                            ?></div>
+                            <script>
+                                var div = document.getElementById("requestValue");
+                                var myData = div.textContent;
+                                document.getElementById("testValue").innerHTML += myData;
+
+                                //file_get_contents('http://www.powerball.com/pb_home.asp')
+                                calculateValue("p", myData, 2, 1);
+                            </script>
+                        </div>
+                        <!--<div class="calculations">
+                            <h1>Show me the math!!</h1>
+                        </div>
+                        <div class="MMTable">
+                            <img src="src/PBWinningTable.png" style='height: 100%; width: 75%; object-fit: contain'/>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
