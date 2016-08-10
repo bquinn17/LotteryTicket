@@ -7,10 +7,12 @@
  * Note: Due cross domain request issues and lack of API,
  *     jackpot data must be entered manually.
  *
- * Note: this file does not yet support the rules of MegaMillions.
+ * Note: this file does not yet fully support the rules of MegaMillions.
  */
 
-oddsOfWinningJackpot = 1/292201338; // (69 choose 5) * (26 choose 1)
+var oddsOfWinningJackpot = 1/292201338; // (69 choose 5) * (26 choose 1)
+var pricePerTicket;
+var numberOfTickets;
 
 function translate(numString){
     numString = numString.replace("$", "");
@@ -24,10 +26,12 @@ function translate(numString){
         trailingWord = pieces[1]
     }
 
-    if(trailingWord == "Million"){
+    trailingWord = trailingWord.toLowerCase()
+
+    if(trailingWord == "million"){
         leadingNumber *= 1000000
     }
-    else if (trailingWord == "Billion"){
+    else if (trailingWord == "billion"){
         leadingNumber *= 1000000000
     }
 
@@ -59,7 +63,7 @@ function numberOfPlayers(thisJackpot, lastJackpot){
         ticketSales = thisJackpot - lastJackpot;
     }
     //TODO account for that fact that Powerplay tickets which cost $3
-    return ticketSales / 2; //$2 per ticket
+    return ticketSales / pricePerTicket;
 }
 
 function getLastJackpot() {
@@ -73,9 +77,10 @@ function oddsOfSplittingThePot(jackpot){
     //TODO
     var numOfPlayers = numberOfPlayers(jackpot, getLastJackpot());
 
+    //the odds that someone else will win the jackpot given that you have won
     var odds = oddsOfWinningJackpot * numOfPlayers;
-    var numberOfWinners = 1;
 
+    var numberOfWinners = 1;
     while (odds > 0.00001){ //value is basically negligible past this point
         odds = odds * Math.pow(oddsOfWinningJackpot, numberOfWinners);
         numberOfWinners += 1;
@@ -84,21 +89,25 @@ function oddsOfSplittingThePot(jackpot){
     return jackpot; //- (jackpot * odds);
 }
 
-function setValuesOnPage(expectedValue) {
-    document.getElementById("worth").innerHTML += expectedValue.toFixed(2);
-    document.getElementById("value").innerHTML += (expectedValue - 2).toFixed(2);
+function setValuesOnPage(PorM, expectedValue) {
+    document.getElementById(PorM + "_worth").innerHTML += expectedValue.toFixed(2);
+    document.getElementById(PorM + "_value").innerHTML +=
+        (expectedValue - pricePerTicket).toFixed(2);
 }
 
-function calculateValue(estimatedJackpot){
+function calculateValue(PorM, estimatedJackpot, price, count){
     //TODO add call to request current estimated jackpot
-    document.getElementById("jackpot").innerHTML += estimatedJackpot;
+    document.getElementById(PorM + "_jackpot").innerHTML += estimatedJackpot.replace("$", "");
+    document.getElementById(PorM + "_price").innerHTML += price.toFixed(2);
+    pricePerTicket = price;
+    numberOfTickets = count;
 
     var jackPot = translate(estimatedJackpot);
     var jackpotAfterSplit = oddsOfSplittingThePot(jackPot);
     var expectedValue = (jackpotAfterSplit * oddsOfWinningJackpot) + withoutJackpot();
 
 
-    setValuesOnPage(expectedValue);
+    setValuesOnPage(PorM, expectedValue);
 }
 
 

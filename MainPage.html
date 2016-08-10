@@ -46,12 +46,12 @@
                         <div class="MMheader">
                             <img src="src/MMLogo.png" vspace="14" style='width: 50%; object-fit: contain'/>
                             <h1><a href="http://www.megamillions.com/">Mega Millions</a></h1>
-                            <p>Coming Soon!</p>
-                            <!--<p>Current Estimated Jackpot: $ 20 MILLION</p>
-                            Option to select <p>Cash Option: $13 million</p>
-                            <p>Cost Per Ticket: $1.00</p>
-                            <p>Your Ticket is Worth: $.013</p>
-                            <p>Expected Value of Your Ticket: $-0.73</p>-->
+                            <p id="m_jackpot">Current Estimated Jackpot: $</p>
+                            <!--Option to select <p>Cash Option: $13 million</p>-->
+                            <p id="m_price">Cost Per Ticket: $</p>
+                            <p id="m_worth">Your Ticket is Worth: $.013</p>
+                            <p id="m_value">Expected Value of Your Ticket: $-0.73</p>
+                            <script>calculateValue("m", "455 Million", 2, 1);</script>
                         </div>
                         <!--<div class="calculations">
                             <h1>Show me the math!!</h1>
@@ -64,15 +64,15 @@
                         <div class="PBheader">
                             <img src="src/PBLogo.png" style='width: 50%; object-fit: contain'/>
                             <h1><a href="http://www.powerball.com/pb_home.asp">PowerBall</a></h1>
-                            <p id="jackpot">Current Estimated Jackpot: </p>
+                            <p id="p_jackpot">Current Estimated Jackpot: $</p>
                             <!-- Option to select <p>$330.6 Million Cash Value</p> -->
-                            <p>Cost Per Ticket: $2.00</p>
+                            <p id="p_price">Cost Per Ticket: $</p>
                             <!-- <p>Number of tickets you purchase-->
-                            <p id="worth">Your ticket is Worth: $</p>
-                            <p id="value">Expected Value of Your Ticket: $</p>
-                            <!--<p id="testValue">Value = </p>-->
+                            <p id="p_worth">Your ticket is Worth: $</p>
+                            <p id="p_value">Expected Value of Your Ticket: $</p>
+                            <p id="testValue">Value = </p>
                             <script>
-                                calculateValue("$1.5 Million");
+                                calculateValue("p", "69 Million", 2, 1)
                             </script>
                         </div>
                         <!--<div class="calculations">
