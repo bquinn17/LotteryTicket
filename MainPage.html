@@ -32,10 +32,13 @@
                 <h1>Expected Value of Your Ticket</h1>
                 <p>This page will tell you, based on probability, how much a lottery ticket is actually worth.</p>
                 <div class="moreInfo">
-                    <p id="1">For more information on how these numbers are calculated, go
-                        <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9"> here.</a>
+                    <p id="1">This web page was inspired by th article found
+                        <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">here.</a>
                     </p>
                     <p id="finePrint">Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
+                    <p id="2">If you want to know how the math works, check out the page source on
+                        <a href="https://github.com/quinnkid123/LotteryTicket">Github.</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -49,9 +52,9 @@
                             <p id="m_jackpot">Current Estimated Jackpot: $</p>
                             <!--Option to select <p>Cash Option: $13 million</p>-->
                             <p id="m_price">Cost Per Ticket: $</p>
-                            <p id="m_worth">Your Ticket is Worth: $.013</p>
-                            <p id="m_value">Expected Value of Your Ticket: $-0.73</p>
-                            <script>calculateValue("m", "455 Million", 2, 1);</script>
+                            <p id="m_worth">Based on Probability, Your Ticket is Worth: $</p>
+                            <p id="m_value">Expected Value of Your Ticket: $</p>
+                            <script>calculateValue("m", "45 Million", 1, 1);</script>
                         </div>
                         <!--<div class="calculations">
                             <h1>Show me the math!!</h1>
@@ -68,11 +71,22 @@
                             <!-- Option to select <p>$330.6 Million Cash Value</p> -->
                             <p id="p_price">Cost Per Ticket: $</p>
                             <!-- <p>Number of tickets you purchase-->
-                            <p id="p_worth">Your ticket is Worth: $</p>
+                            <p id="p_worth">Based on probability, Your Ticket is Worth: $</p>
                             <p id="p_value">Expected Value of Your Ticket: $</p>
-                            <p id="testValue">Value = </p>
+                            <!--<p id="testValue">Value = </p>-->
+                            <div id="dom-target" style="display: none;">
+                                <?php
+                                    $output = "42"; //Again, do some operation, get the output.
+                                    echo htmlspecialchars($output); /* You have to escape because the result will not be valid HTML otherwise. */
+                                ?>
+                            </div>
                             <script>
-                                calculateValue("p", "69 Million", 2, 1)
+                                var div = document.getElementById("dom-target");
+                                var myData = div.textContent;
+
+                                //file_get_contents('http://www.powerball.com/pb_home.asp')
+                                //var jackpot = <?php echo json_encode("42"); ?>;
+                                calculateValue("p", myData + " Million", 2, 1);
                             </script>
                         </div>
                         <!--<div class="calculations">

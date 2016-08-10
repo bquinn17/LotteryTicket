@@ -95,6 +95,10 @@ function setValuesOnPage(PorM, expectedValue) {
         (expectedValue - pricePerTicket).toFixed(2);
 }
 
+function getJackpotRequest(){
+
+}
+
 function calculateValue(PorM, estimatedJackpot, price, count){
     //TODO add call to request current estimated jackpot
     document.getElementById(PorM + "_jackpot").innerHTML += estimatedJackpot.replace("$", "");
@@ -105,8 +109,6 @@ function calculateValue(PorM, estimatedJackpot, price, count){
     var jackPot = translate(estimatedJackpot);
     var jackpotAfterSplit = oddsOfSplittingThePot(jackPot);
     var expectedValue = (jackpotAfterSplit * oddsOfWinningJackpot) + withoutJackpot();
-
-
     setValuesOnPage(PorM, expectedValue);
 }
 
