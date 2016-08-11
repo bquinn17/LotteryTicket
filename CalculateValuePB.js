@@ -4,9 +4,12 @@
  * This file is used to calculate the expected value of a
  * Powerball ticket based on the current estimated jackpot.
  *
- * Note: Due cross domain request issues and lack of API,
- *     jackpot data must be entered manually.
+ * Expected Value is defined as a predicted value of a variable,
+ * calculated as the sum of all possible values each multiplied by
+ * the probability of its occurrence.
  *
+ * Here is a general breakdown and walk through of a similar problem:
+ *  www.khanacademy.org/math/probability/random-variables-topic/expected-value/v/expected-value-profit-lottery-ticket
  */
 
 var pricePerTicket;
@@ -40,7 +43,7 @@ function oddsOfWinningJackpot(){
     }
 }
 
-function withoutJackpot(){
+function otherPrizeWon(){
     //Expected value of winning a prize other than the jackpot
     //Since this is constant we can calculate it ahead of time
     //Please note that these odds are exclusive, and do not
@@ -75,13 +78,34 @@ function withoutJackpot(){
     }
 }
 
-function oddsOfLosing(){
+function noPrizeWon(){
     // 1 - the odds of winning any other prize
+    var chanceOfLosing;
     if (PowerBallOrMegaMillions == "p"){
-        return 0.97368
+        chanceOfLosing = 0.97368;
     }else {
-        return 0.930990
+        chanceOfLosing = 0.930990;
     }
+    return chanceOfLosing * (-1 * pricePerTicket);
+}
+
+function oddsOfSplittingThePot(jackpot){
+    //Returns a value that represents the probability of the size of your
+    //jackpot after accounting for the probability of splitting the pot
+    //between multiple winners
+    //TODO this feature is not yet ready to be implemented
+    var numOfPlayers = numberOfPlayers(jackpot, getLastJackpot());
+
+    //the odds that someone else will win the jackpot given that you have won
+    var odds = oddsOfWinningJackpot() * numOfPlayers;
+
+    var numberOfWinners = 1;
+    while (odds > 0.00001){ //value is basically negligible past this point
+        odds = odds * Math.pow(oddsOfWinningJackpot(), numberOfWinners);
+        numberOfWinners += 1;
+    }
+
+    return jackpot; //- (jackpot * odds);
 }
 
 function numberOfPlayers(thisJackpot, lastJackpot){
@@ -103,25 +127,6 @@ function getLastJackpot() {
     }
 }
 
-function oddsOfSplittingThePot(jackpot){
-    //Returns a value that represents the probability of the size of your
-    //jackpot after accounting for the probability of splitting the pot
-    //between multiple winners
-    //TODO
-    var numOfPlayers = numberOfPlayers(jackpot, getLastJackpot());
-
-    //the odds that someone else will win the jackpot given that you have won
-    var odds = oddsOfWinningJackpot * numOfPlayers;
-
-    var numberOfWinners = 1;
-    while (odds > 0.00001){ //value is basically negligible past this point
-        odds = odds * Math.pow(oddsOfWinningJackpot, numberOfWinners);
-        numberOfWinners += 1;
-    }
-
-    return jackpot; //- (jackpot * odds);
-}
-
 function setValuesOnPage(expectedValue) {
     document.getElementById(PowerBallOrMegaMillions + "_worth").innerHTML += expectedValue.toFixed(2);
     document.getElementById(PowerBallOrMegaMillions + "_value").innerHTML +=
@@ -139,7 +144,11 @@ function calculateValue(PorM, estimatedJackpot, price, count){
 
     var jackPot = translateToNumber(estimatedJackpot);
     var jackpotAfterSplit = oddsOfSplittingThePot(jackPot);
-    var expectedValue = (jackpotAfterSplit * oddsOfWinningJackpot) + withoutJackpot();
+
+    var expectedValue =
+        (jackpotAfterSplit * oddsOfWinningJackpot()) //expected profit of jackpot
+        + otherPrizeWon() //expected profit of other prize
+        + noPrizeWon(); //expected profit of losing
     setValuesOnPage(expectedValue);
 }
 
