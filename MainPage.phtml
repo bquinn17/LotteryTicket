@@ -27,22 +27,22 @@
     </head>
 
     <body>
-        <div class="title">
-            <div class="container">
-                <h1>Expected Value of Your Ticket</h1>
-                <p>This page will tell you, based on probability, how much a lottery ticket is actually worth.</p>
-                <div class="moreInfo">
-                    <p id="1">This web page was inspired by th article found
-                        <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">here.</a>
-                    </p>
-                    <p id="finePrint">Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
-                    <p id="2">If you want to know how the math works, check out the page source on
-                        <a href="https://github.com/quinnkid123/LotteryTicket">Github.</a>
-                    </p>
-                </div>
+    <div class="title">
+        <div class="container">
+            <h1>Expected Value of Your Ticket</h1>
+            <p>This page will tell you, based on probability, how much a lottery ticket is actually worth.</p>
+            <div class="moreInfo">
+                <p id="1">This web page was inspired by the article found
+                    <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">here.</a>
+                </p>
+                <p id="finePrint">- Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
+                <p id="2">If you want to know how the math works, check out the page source on
+                    <a href="https://github.com/quinnkid123/LotteryTicket">Github.</a>
+                </p>
             </div>
         </div>
-        <div class="body">
+    </div>
+    <div class="body">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -52,8 +52,7 @@
                             <p id="m_jackpot">Current Estimated Jackpot: $</p>
                             <!--Option to select <p>Cash Option: $13 million</p>-->
                             <p id="m_price">Cost Per Ticket: $</p>
-                            <p id="m_worth">Based on Probability, Your Ticket is Worth: $</p>
-                            <p id="m_value">Expected Value of Your Ticket: $</p>
+                            <p id="m_value">Expected Profit: $</p>
                             <div id="m_requestValue" style="display: none;"><?php
                                 error_reporting(E_ERROR | E_PARSE);
                                 $dom = new DOMDocument;
@@ -84,8 +83,7 @@
                             <!-- Option to select <p>$330.6 Million Cash Value</p> -->
                             <p id="p_price">Cost Per Ticket: $</p>
                             <!-- <p>Number of tickets you purchase-->
-                            <p id="p_worth">Based on probability, Your Ticket is Worth: $</p>
-                            <p id="p_value">Expected Value of Your Ticket: $</p>
+                            <p id="p_value">Expected Profit: $</p>
                             <div id="p_requestValue" style="display: none;"><?php
                                 error_reporting(E_ERROR | E_PARSE);
                                 $dom = new DOMDocument;

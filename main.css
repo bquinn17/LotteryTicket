@@ -2,6 +2,7 @@
     background-color: darkgray;
     border-bottom: 1px solid #000000;
     text-align-all: center;
+    font-family: "Helvetica Neue", serif;
 }
 
 .title h1 {
@@ -34,8 +35,4 @@
     font-family: 'Shift', sans-serif;
     font-size: 32px;
     font-weight: bold;
-}
-
-.PBheader a{
-    alignment: center;
 }

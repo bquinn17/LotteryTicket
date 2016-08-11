@@ -2,11 +2,11 @@
  * Created by Bryan.Quinn on 7/28/2016.
  *
  * This file is used to calculate the expected value of a
- * Powerball ticket based on the current estimated jackpot.
+ *  Powerball ticket based on the current estimated jackpot.
  *
  * Expected Value is defined as a predicted value of a variable,
- * calculated as the sum of all possible values each multiplied by
- * the probability of its occurrence.
+ *  calculated as the sum of all possible values each multiplied by
+ *  the probability of its occurrence.
  *
  * Here is a general breakdown and walk through of a similar problem:
  *  www.khanacademy.org/math/probability/random-variables-topic/expected-value/v/expected-value-profit-lottery-ticket
@@ -128,9 +128,7 @@ function getLastJackpot() {
 }
 
 function setValuesOnPage(expectedValue) {
-    document.getElementById(PowerBallOrMegaMillions + "_worth").innerHTML += expectedValue.toFixed(2);
-    document.getElementById(PowerBallOrMegaMillions + "_value").innerHTML +=
-        (expectedValue - pricePerTicket).toFixed(2);
+    document.getElementById(PowerBallOrMegaMillions + "_value").innerHTML += expectedValue.toFixed(2);
 }
 
 function calculateValue(PorM, estimatedJackpot, price, count){
@@ -149,6 +147,7 @@ function calculateValue(PorM, estimatedJackpot, price, count){
         (jackpotAfterSplit * oddsOfWinningJackpot()) //expected profit of jackpot
         + otherPrizeWon() //expected profit of other prize
         + noPrizeWon(); //expected profit of losing
+
     setValuesOnPage(expectedValue);
 }
 
