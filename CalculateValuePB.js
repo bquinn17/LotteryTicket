@@ -7,15 +7,13 @@
  * Note: Due cross domain request issues and lack of API,
  *     jackpot data must be entered manually.
  *
- * Note: this file does not yet fully support the rules of MegaMillions.
  */
 
-const oddsOfWinningJackpot = 1/292201338; // (69 choose 5) * (26 choose 1)
 var pricePerTicket;
 var numberOfTickets;
 var PowerBallOrMegaMillions;
 
-function translate(numString){
+function translateToNumber(numString){
     var pieces = numString.split(" ");
     var leadingNumber = 0;
     var trailingWord = "";
@@ -24,7 +22,7 @@ function translate(numString){
         leadingNumber = pieces[0];
         trailingWord = pieces[1];
     }
-    trailingWord = trailingWord.toLowerCase()
+    trailingWord = trailingWord.toLowerCase();
     if(trailingWord == "million"){
         leadingNumber *= 1000000;
     }
@@ -34,21 +32,34 @@ function translate(numString){
     return leadingNumber;
 }
 
+function oddsOfWinningJackpot(){
+    if (PowerBallOrMegaMillions == "p"){
+        return 1/292201338; // 1 / ((69 choose 5) * (26 choose 1))
+    } else {
+        return 1/258890850;
+    }
+}
+
 function withoutJackpot(){
     //Expected value of winning a prize other than the jackpot
     //Since this is constant we can calculate it ahead of time
+    //Please note that these odds are exclusive, and do not
+    //  trickled down. Meaning that the odds represent the chance
+    //  of that single event happening, and nothing else. For example
+    //  the odds of matching one red ball, do not include the odds of
+    //  winning another prize that includes matching one red ball.
     if (PowerBallOrMegaMillions == "p"){ //Powerball
         //See PBWinningTable.PNG for ways to win
-        //1 in 11,688,053.52 * $1,000,000 = .085567
-        //1 in 913,129.18    * $50,000    = .054756
-        //1 in 36,525.17     * $100       = .002737
-        //1 in 14,494.11     * $100       = .006899
-        //1 in 579.76        * $7         = .012074
-        //1 in 701.33        * $7         = .009981
-        //1 in 91.98         * $4         = .043488
-        //1 in 38.32         * $4         = .104384
-        //add them all together           = .319878
-        return .319878;
+        //1 in 11,688,053 * $1,000,000 = .085567
+        //1 in 913,129    * $50,000    = .054756
+        //1 in 36,525     * $100       = .002737
+        //1 in 14,494     * $100       = .006899
+        //1 in 579        * $7         = .012074
+        //1 in 701        * $7         = .009981
+        //1 in 91         * $4         = .043488
+        //1 in 38         * $4         = .104384
+        //add them all together        = .319878
+        return 0.319878;
     } else { //MegaMillions
         //See MMWinningTable.PNG for ways to win
         //1 in 18,492,204 * $1,000,000 = .054077
@@ -60,7 +71,16 @@ function withoutJackpot(){
         //1 in 56         * $2         = .035714
         //1 in 21         * $1         = .047619
         //add them all together        = .175396
-        return .175396;
+        return 0.175396;
+    }
+}
+
+function oddsOfLosing(){
+    // 1 - the odds of winning any other prize
+    if (PowerBallOrMegaMillions == "p"){
+        return 0.97368
+    }else {
+        return 0.930990
     }
 }
 
@@ -117,7 +137,7 @@ function calculateValue(PorM, estimatedJackpot, price, count){
     pricePerTicket = price;
     numberOfTickets = count;
 
-    var jackPot = translate(estimatedJackpot);
+    var jackPot = translateToNumber(estimatedJackpot);
     var jackpotAfterSplit = oddsOfSplittingThePot(jackPot);
     var expectedValue = (jackpotAfterSplit * oddsOfWinningJackpot) + withoutJackpot();
     setValuesOnPage(expectedValue);
