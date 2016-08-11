@@ -54,7 +54,20 @@
                             <p id="m_price">Cost Per Ticket: $</p>
                             <p id="m_worth">Based on Probability, Your Ticket is Worth: $</p>
                             <p id="m_value">Expected Value of Your Ticket: $</p>
-                            <script>calculateValue("m", "45 Million", 1, 1);</script>
+                            <div id="m_requestValue" style="display: none;"><?php
+                                error_reporting(E_ERROR | E_PARSE);
+                                $dom = new DOMDocument;
+                                $dom -> loadHTMLFile('http://www.powerball.com/megamillions/mm_main.asp');
+                                $xpath = new DomXPath($dom);
+                                $value = $xpath -> query(
+                                    '/html/body/table/tr[1]/td[1]/table/tr/td[2]/table/tr[2]/td/font[1]');
+                                echo htmlspecialchars($value -> item(0) -> textContent);
+                                ?></div>
+                            <script>
+                                var div = document.getElementById("m_requestValue");
+                                var jackpot = div.textContent;
+                                calculateValue("m", jackpot, 1, 1);
+                            </script>
                         </div>
                         <!--<div class="calculations">
                             <h1>Show me the math!!</h1>
@@ -73,25 +86,18 @@
                             <!-- <p>Number of tickets you purchase-->
                             <p id="p_worth">Based on probability, Your Ticket is Worth: $</p>
                             <p id="p_value">Expected Value of Your Ticket: $</p>
-                            <p id="testValue">Value = </p>
-                            <div id="requestValue" style="display: none;"><?php
+                            <div id="p_requestValue" style="display: none;"><?php
                                 error_reporting(E_ERROR | E_PARSE);
                                 $dom = new DOMDocument;
                                 $dom -> loadHTMLFile('http://www.powerball.com/pb_home.asp');
-                                $child = $dom -> childNodes;
-                                //print_r($dom);
                                 $xpath = new DomXPath($dom);
                                 $value = $xpath ->
                                     query('//*[@id="numbers"]/table[1]/tr[2]/td[14]/font/strong');
-
                                 echo htmlspecialchars($value -> item(0) -> nodeValue);
                             ?></div>
                             <script>
-                                var div = document.getElementById("requestValue");
+                                var div = document.getElementById("p_requestValue");
                                 var myData = div.textContent;
-                                document.getElementById("testValue").innerHTML += myData;
-
-                                //file_get_contents('http://www.powerball.com/pb_home.asp')
                                 calculateValue("p", myData, 2, 1);
                             </script>
                         </div>

@@ -26,8 +26,8 @@
     min-height: 80%;
     width: 100%;
     position: absolute;
-    /*background: linear-gradient(#99ccff, #132639);
-    */font-size: 24px;
+    background: linear-gradient(#99ccff, #132639);
+    font-size: 24px;
 }
 
 .body h1 {

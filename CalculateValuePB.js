@@ -15,8 +15,6 @@ var pricePerTicket;
 var numberOfTickets;
 
 function translate(numString){
-    numString = numString.replace("$", "");
-    numString = numString.trim();
     var pieces = numString.split(" ");
     var leadingNumber = 0;
     var trailingWord = "";
@@ -95,13 +93,10 @@ function setValuesOnPage(PorM, expectedValue) {
         (expectedValue - pricePerTicket).toFixed(2);
 }
 
-function getJackpotRequest(){
-
-}
-
 function calculateValue(PorM, estimatedJackpot, price, count){
-    //TODO add call to request current estimated jackpot
-    document.getElementById(PorM + "_jackpot").innerHTML += estimatedJackpot.replace("$", "");
+    estimatedJackpot = estimatedJackpot.replace("$", "");
+    estimatedJackpot = estimatedJackpot.trim();
+    document.getElementById(PorM + "_jackpot").innerHTML += estimatedJackpot;
     document.getElementById(PorM + "_price").innerHTML += price.toFixed(2);
     pricePerTicket = price;
     numberOfTickets = count;
