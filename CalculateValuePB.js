@@ -37,9 +37,9 @@ function translateToNumber(numString){
 
 function oddsOfWinningJackpot(){
     if (PowerBallOrMegaMillions == "p"){
-        return 1/292201338; // 1 / ((69 choose 5) * (26 choose 1))
+        return 1/292201338.00; // 1 / ((69 choose 5) * (26 choose 1))
     } else {
-        return 1/258890850;
+        return 1/258890850.00; // 1 / ((75 choose 5) * (15 choose 1))
     }
 }
 
@@ -51,30 +51,32 @@ function otherPrizeWon(){
     //  of that single event happening, and nothing else. For example
     //  the odds of matching one red ball, do not include the odds of
     //  winning another prize that includes matching one red ball.
+
     if (PowerBallOrMegaMillions == "p"){ //Powerball
         //See PBWinningTable.PNG for ways to win
-        //1 in 11,688,053 * $1,000,000 = .085567
-        //1 in 913,129    * $50,000    = .054756
-        //1 in 36,525     * $100       = .002737
-        //1 in 14,494     * $100       = .006899
-        //1 in 579        * $7         = .012074
-        //1 in 701        * $7         = .009981
-        //1 in 91         * $4         = .043488
-        //1 in 38         * $4         = .104384
-        //add them all together        = .319878
-        return 0.319878;
+        //1 in 11,688,053.52 * ($1,000,000 - $2) = 0.08555727421
+        //1 in 913,129.18    * ($50,000 - $2)    = 0.05475457481
+        //1 in 36,525.17     * ($100 - $2)       = 0.00268308128
+        //1 in 14,494.11     * ($100 - $2)       = 0.0067613672
+        //1 in 579.76        * ($7 - $2)         = 0.00862425831
+        //1 in 701.33        * ($7 - $2)         = 0.00712931145
+        //1 in 91.98         * ($4 - $2)         = 0.02174385736
+        //1 in 38.32         * ($4 - $2)         = 0.0521920668
+        //add them all together                  = 0.23944579142
+        return 0.23944579142;
+
     } else { //MegaMillions
         //See MMWinningTable.PNG for ways to win
-        //1 in 18,492,204 * $1,000,000 = .054077
-        //1 in 739,688    * $5,000     = .006760
-        //1 in 52,835     * $500       = .009463
-        //1 in 10,720     * $50        = .004664
-        //1 in 766        * $5         = .006527
-        //1 in 473        * $5         = .010571
-        //1 in 56         * $2         = .035714
-        //1 in 21         * $1         = .047619
-        //add them all together        = .175396
-        return 0.175396;
+        //1 in 18,492,203.57 * ($1,000,000 - $1) = 0.0540767895
+        //1 in 739,688.14    * ($5,000 - $1)     = 0.00675825355
+        //1 in 52,834.87     * ($500 - $1)       = 0.00944452025
+        //1 in 10,720.12     * ($50 - $1)        = 0.00457084435
+        //1 in 766.72        * ($5 - $1)         = 0.00521702838
+        //1 in 472.95        * ($5 - $1)         = 0.00845755365
+        //1 in 56.47         * ($2 - $1)         = 0.01770851779
+        //1 in 21.39         * ($1 - $1)         = 0.0
+        //add them all together                  = 0.10623350747
+        return 0.10623350747;
     }
 }
 
