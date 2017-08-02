@@ -1,5 +1,5 @@
 /**
- * Created by Bryan.Quinn on 7/28/2016.
+ * Created by Bryan Quinn on 7/28/2016.
  *
  * This file is used to calculate the expected value of a
  *  Powerball ticket based on the current estimated jackpot.
@@ -133,12 +133,12 @@ function setValuesOnPage(expectedValue) {
     document.getElementById(PowerBallOrMegaMillions + "_value").innerHTML += expectedValue.toFixed(2);
 }
 
-function calculateValue(PorM, estimatedJackpot, price, count){
-    PowerBallOrMegaMillions = PorM;
+function calculateValue(P_or_M, estimatedJackpot, price, count){
+    PowerBallOrMegaMillions = P_or_M;
     estimatedJackpot = estimatedJackpot.replace("$", "");
     estimatedJackpot = estimatedJackpot.trim();
-    document.getElementById(PorM + "_jackpot").innerHTML += estimatedJackpot;
-    document.getElementById(PorM + "_price").innerHTML += price.toFixed(2);
+    document.getElementById(P_or_M + "_jackpot").innerHTML += estimatedJackpot;
+    document.getElementById(P_or_M + "_price").innerHTML += price.toFixed(2);
     pricePerTicket = price;
     numberOfTickets = count;
 
@@ -152,6 +152,3 @@ function calculateValue(PorM, estimatedJackpot, price, count){
 
     setValuesOnPage(expectedValue);
 }
-
-
-
