@@ -90,16 +90,16 @@
                             <div id="p_requestValue" style="display: none;"><?php
                                 error_reporting(E_ERROR | E_PARSE);
                                 $dom = new DOMDocument;
-                                $html = file_get_contents('https://www.powerball.com/index.php');
+                                $html = file_get_contents('https://www.powerball.com');
+                                //$html = file_get_contents('http://www.megamillions.com');
                                 $dom -> loadHTML($html);
                                 $xpath = new DomXPath($dom);
-                                // $dom -> loadHTMLFile('https://www.powerball.com/index.php');
                                 $value = $xpath ->
                                     //query('/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[2]');
-                                    quert('/html/body/div[1]/main/div/div[1]/article/div/div[2]/div[2]/div[2]/div[1]/div/div[2]/div[1]/div[2]/ul/li[2]/span');
+                                    query('/html/body/div[1]/main/div/div[1]/article/div/div[1]/div/div/div[3]/div/div/div[2]/div[2]');
                                     //query('/html/body/div[1]/header/div[2]/div/div[1]/div[2]/span[2]');
                                 // echo $html;
-                                echo htmlspecialchars($value -> item(0) -> textContent) . " Million";
+                                echo htmlspecialchars($value -> item(0) -> textContent) . "455 Million";
                                 // echo htmlspecialchars($value -> item(0) -> nodeValue);
                             ?></div>
                             <script>
