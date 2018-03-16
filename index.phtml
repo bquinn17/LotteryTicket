@@ -36,7 +36,7 @@
                 </p>
                 <p id="finePrint">- Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
                 <p id="2">If you want to know how the math works, check out the page source on
-                    <a href="https://github.com/quinnkid123/LotteryTicket">Github.</a>
+                    <a href="https://github.com/bquinn17/LotteryTicket">Github.</a>
                 </p>
             </div>
         </div>
@@ -55,11 +55,15 @@
                             <div id="m_requestValue" style="display: none;"><?php
                                 error_reporting(E_ERROR | E_PARSE);
                                 $dom = new DOMDocument;
-                                $dom -> loadHTMLFile('http://www.powerball.com/megamillions/mm_main.asp');
+                                $dom -> loadHTMLFile('http://www.megamillions.com/index.html');
                                 $xpath = new DomXPath($dom);
                                 $value = $xpath -> query(
-                                    '/html/body/table/tr[1]/td[1]/table/tr/td[2]/table/tr[2]/td/font[1]');
-                                echo htmlspecialchars($value -> item(0) -> textContent);
+                                    '/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[2]');
+                                $numberValue = htmlspecialchars($value -> item(0) -> textContent);
+                                $value2 = $xpath -> query(
+                                    '/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[3]');
+                                $units = htmlspecialchars($value2 -> item(0) -> textContent);
+                                echo $numberValue . ' ' . $units;
                                 ?></div>
                             <script>
                                 var div = document.getElementById("m_requestValue");
@@ -77,7 +81,7 @@
                     <div class="col-md-6">
                         <div class="PBheader">
                             <img src="src/PBLogo.png" style='width: 50%; object-fit: contain'/>
-                            <h1><a href="http://www.powerball.com/pb_home.asp">PowerBall</a></h1>
+                            <h1><a href="https://www.powerball.com/">PowerBall</a></h1>
                             <p id="p_jackpot">Current Estimated Jackpot: $</p>
                             <!-- Option to select <p>$330.6 Million Cash Value</p> -->
                             <p id="p_price">Cost Per Ticket: $</p>
@@ -86,11 +90,17 @@
                             <div id="p_requestValue" style="display: none;"><?php
                                 error_reporting(E_ERROR | E_PARSE);
                                 $dom = new DOMDocument;
-                                $dom -> loadHTMLFile('http://www.powerball.com/pb_home.asp');
+                                $html = file_get_contents('https://www.powerball.com/index.php');
+                                $dom -> loadHTML($html);
                                 $xpath = new DomXPath($dom);
+                                // $dom -> loadHTMLFile('https://www.powerball.com/index.php');
                                 $value = $xpath ->
-                                    query('//*[@id="numbers"]/table[1]/tr[2]/td[14]/font/strong');
-                                echo htmlspecialchars($value -> item(0) -> nodeValue);
+                                    //query('/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[2]');
+                                    quert('/html/body/div[1]/main/div/div[1]/article/div/div[2]/div[2]/div[2]/div[1]/div/div[2]/div[1]/div[2]/ul/li[2]/span');
+                                    //query('/html/body/div[1]/header/div[2]/div/div[1]/div[2]/span[2]');
+                                // echo $html;
+                                echo htmlspecialchars($value -> item(0) -> textContent) . " Million";
+                                // echo htmlspecialchars($value -> item(0) -> nodeValue);
                             ?></div>
                             <script>
                                 var div = document.getElementById("p_requestValue");
