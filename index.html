@@ -52,24 +52,6 @@
                             <!--Option to select <p>Cash Option: $13 million</p>-->
                             <p id="m_price">Cost Per Ticket: $</p>
                             <p id="m_value">Expected Profit: $</p>
-                            <div id="m_requestValue" style="display: none;"><?php
-                                error_reporting(E_ERROR | E_PARSE);
-                                $dom = new DOMDocument;
-                                $dom -> loadHTMLFile('http://www.megamillions.com/index.html');
-                                $xpath = new DomXPath($dom);
-                                $value = $xpath -> query(
-                                    '/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[2]');
-                                $numberValue = htmlspecialchars($value -> item(0) -> textContent);
-                                $value2 = $xpath -> query(
-                                    '/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[3]');
-                                $units = htmlspecialchars($value2 -> item(0) -> textContent);
-                                echo $numberValue . ' ' . $units;
-                                ?></div>
-                            <script>
-                                var div = document.getElementById("m_requestValue");
-                                var jackpot = div.textContent;
-                                calculateValue("m", jackpot, 1, 1);
-                            </script>
                         </div>
                         <!--<div class="calculations">
                             <h1>Show me the math!!</h1>
@@ -87,26 +69,6 @@
                             <p id="p_price">Cost Per Ticket: $</p>
                             <!-- <p>Number of tickets you purchase-->
                             <p id="p_value">Expected Profit: $</p>
-                            <div id="p_requestValue" style="display: none;"><?php
-                                error_reporting(E_ERROR | E_PARSE);
-                                $dom = new DOMDocument;
-                                $html = file_get_contents('https://www.powerball.com');
-                                //$html = file_get_contents('http://www.megamillions.com');
-                                $dom -> loadHTML($html);
-                                $xpath = new DomXPath($dom);
-                                $value = $xpath ->
-                                    //query('/html/body/article/div[2]/div[1]/div[1]/div/div[1]/div[1]/div/article/div/div[2]/div[2]');
-                                    query('/html/body/div[1]/main/div/div[1]/article/div/div[1]/div/div/div[3]/div/div/div[2]/div[2]');
-                                    //query('/html/body/div[1]/header/div[2]/div/div[1]/div[2]/span[2]');
-                                // echo $html;
-                                echo htmlspecialchars($value -> item(0) -> textContent) . "455 Million";
-                                // echo htmlspecialchars($value -> item(0) -> nodeValue);
-                            ?></div>
-                            <script>
-                                var div = document.getElementById("p_requestValue");
-                                var myData = div.textContent;
-                                calculateValue("p", myData, 2, 1);
-                            </script>
                         </div>
                         <!--<div class="calculations">
                             <h1>Show me the math!!</h1>
@@ -118,5 +80,29 @@
                 </div>
             </div>
         </div>
+        <script>
+            function initializeValues(data) {
+                calculateValue("m", data.megamillions, 1, 1);
+                calculateValue("p", data.powerball, 2, 1);
+            }
+
+            fetch("data/current_jackpots.json")
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error("Unable to load jackpot values.");
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+                    initializeValues(data);
+                })
+                .catch(function() {
+                    // Fallback values if the Python endpoint is unavailable.
+                    initializeValues({
+                        megamillions: 0.0,
+                        powerball: 0.0
+                    });
+                });
+        </script>
     </body>
 </html>

@@ -16,23 +16,11 @@ var pricePerTicket;
 var numberOfTickets;
 var PowerBallOrMegaMillions;
 
-function translateToNumber(numString){
-    var pieces = numString.split(" ");
-    var leadingNumber = 0;
-    var trailingWord = "";
-
-    if (pieces.length == 2){
-        leadingNumber = pieces[0];
-        trailingWord = pieces[1];
+function formatJackpotForDisplay(jackpotValue){
+    if (jackpotValue >= 1000000000){
+        return (jackpotValue / 1000000000).toFixed(1).replace(/\.0$/, "") + " Billion";
     }
-    trailingWord = trailingWord.toLowerCase();
-    if(trailingWord == "million"){
-        leadingNumber *= 1000000;
-    }
-    else if (trailingWord == "billion"){
-        leadingNumber *= 1000000000;
-    }
-    return leadingNumber;
+    return (jackpotValue / 1000000).toFixed(1).replace(/\.0$/, "") + " Million";
 }
 
 function oddsOfWinningJackpot(){
@@ -135,15 +123,17 @@ function setValuesOnPage(expectedValue) {
 
 function calculateValue(P_or_M, estimatedJackpot, price, count){
     PowerBallOrMegaMillions = P_or_M;
-    estimatedJackpot = estimatedJackpot.replace("$", "");
-    estimatedJackpot = estimatedJackpot.trim();
-    document.getElementById(P_or_M + "_jackpot").innerHTML += estimatedJackpot;
+    var jackpotValue = Number(estimatedJackpot);
+    if (!Number.isFinite(jackpotValue) || jackpotValue < 0){
+        jackpotValue = 0;
+    }
+
+    document.getElementById(P_or_M + "_jackpot").innerHTML += formatJackpotForDisplay(jackpotValue);
     document.getElementById(P_or_M + "_price").innerHTML += price.toFixed(2);
     pricePerTicket = price;
     numberOfTickets = count;
 
-    var jackPot = translateToNumber(estimatedJackpot);
-    var jackpotAfterSplit = oddsOfSplittingThePot(jackPot);
+    var jackpotAfterSplit = oddsOfSplittingThePot(jackpotValue);
 
     var expectedValue =
         (jackpotAfterSplit * oddsOfWinningJackpot()) //expected profit of jackpot
