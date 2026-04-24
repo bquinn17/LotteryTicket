@@ -111,9 +111,9 @@ function numberOfPlayers(thisJackpot, lastJackpot){
 function getLastJackpot() {
     //TODO request jackpot from the last drawing
     if (PowerBallOrMegaMillions == "p") {
-        return 67000000;
+        return 67_000_000;
     } else {
-        return 40000000;
+        return 40_000_000;
     }
 }
 

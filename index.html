@@ -2,84 +2,84 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
         <title>Lottery Ticket Expected Value</title>
 
-        <!-- Bootstrap -->
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="main.css">
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>-->
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="CalculateValue.js"></script>
-
+        <script src="src/CalculateValue.js"></script>
     </head>
 
     <body>
-    <div class="title">
-        <div class="container">
-            <h1>Expected Value of Your Ticket</h1>
-            <p>This page will tell you, based on probability, how much a lottery ticket is actually worth.</p>
-            <div class="moreInfo">
-                <p id="1">This web page was inspired by the article found
-                    <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">here.</a>
+        <header class="hero">
+            <span class="eyebrow">Probability · Expected Value</span>
+            <h1>How much is your lottery ticket really worth?</h1>
+            <p class="lede">
+                A simple, honest breakdown of what you should expect to profit (or lose)
+                on a Powerball or Mega Millions ticket &mdash; based on the current jackpot.
+            </p>
+            <div class="more-info">
+                <p>Inspired by
+                    <a href="http://www.businessinsider.com/heres-when-math-says-you-should-start-to-care-about-powerball-2013-9">this article</a>.
                 </p>
-                <p id="finePrint">- Please note that the article is based on previous Powerball rules, however the concept is still the same.</p>
-                <p id="2">If you want to know how the math works, check out the page source on
-                    <a href="https://github.com/bquinn17/LotteryTicket">Github.</a>
+                <p class="fine-print">The article uses older Powerball rules, but the concept still applies.</p>
+                <p>Curious about the math? Check the source on
+                    <a href="https://github.com/bquinn17/LotteryTicket">GitHub</a>.
                 </p>
             </div>
-        </div>
-    </div>
-    <div class="body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="MMheader">
-                            <img src="images/MMLogo.png" vspace="14" style='width: 50%; object-fit: contain'/>
-                            <h1><a href="http://www.megamillions.com/">Mega Millions</a></h1>
-                            <p id="m_jackpot">Current Estimated Jackpot: $</p>
-                            <!--Option to select <p>Cash Option: $13 million</p>-->
-                            <p id="m_price">Cost Per Ticket: $</p>
-                            <p id="m_value">Expected Profit: $</p>
-                        </div>
-                        <!--<div class="calculations">
-                            <h1>Show me the math!!</h1>
-                        </div>
-                        <div class="MMTable">
-                            <img src="images/MMWinningTable.png" style='height: 100%; width: 75%; object-fit: contain'/>
-                        </div>-->
+        </header>
+
+        <main class="cards">
+            <article class="card mm">
+                <div class="logo"><img src="images/MMLogo.png" alt="Mega Millions logo"></div>
+                <h2><a href="http://www.megamillions.com/">Mega Millions</a></h2>
+
+                <div class="stats">
+                    <div class="stat profit">
+                        <div class="stat-label">Expected Profit</div>
+                        <div class="stat-value" id="m_value">$</div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="PBheader">
-                            <img src="images/PBLogo.png" style='width: 50%; object-fit: contain'/>
-                            <h1><a href="https://www.powerball.com/">PowerBall</a></h1>
-                            <p id="p_jackpot">Current Estimated Jackpot: $</p>
-                            <!-- Option to select <p>$330.6 Million Cash Value</p> -->
-                            <p id="p_price">Cost Per Ticket: $</p>
-                            <!-- <p>Number of tickets you purchase-->
-                            <p id="p_value">Expected Profit: $</p>
-                        </div>
-                        <!--<div class="calculations">
-                            <h1>Show me the math!!</h1>
-                        </div>
-                        <div class="MMTable">
-                            <img src="images/PBWinningTable.png" style='height: 100%; width: 75%; object-fit: contain'/>
-                        </div>-->
+                    <div class="stat">
+                        <div class="stat-label">Cost Per Ticket</div>
+                        <div class="stat-value" id="m_price">$</div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+                <div class="jackpot-block">
+                    <div class="jackpot-label">Current Estimated Jackpot</div>
+                    <div class="jackpot-value" id="m_jackpot">$</div>
+                </div>
+
+            </article>
+
+            <article class="card pb">
+                <div class="logo"><img src="images/PBLogo.png" alt="Powerball logo"></div>
+                <h2><a href="https://www.powerball.com/">Powerball</a></h2>
+
+                <div class="stats">
+                    <div class="stat profit">
+                        <div class="stat-label">Expected Profit</div>
+                        <div class="stat-value" id="p_value">$</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Cost Per Ticket</div>
+                        <div class="stat-value" id="p_price">$</div>
+                    </div>
+                </div>
+
+                <div class="jackpot-block">
+                    <div class="jackpot-label">Current Estimated Jackpot</div>
+                    <div class="jackpot-value" id="p_jackpot">$</div>
+                </div>
+
+            </article>
+        </main>
+
         <script>
             function initializeValues(data) {
                 calculateValue("m", data.megamillions, 1, 1);
@@ -97,11 +97,7 @@
                     initializeValues(data);
                 })
                 .catch(function() {
-                    // Fallback values if the Python endpoint is unavailable.
-                    initializeValues({
-                        megamillions: 0.0,
-                        powerball: 0.0
-                    });
+                    initializeValues({ megamillions: 0.0, powerball: 0.0 });
                 });
         </script>
     </body>
