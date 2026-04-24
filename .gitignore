@@ -54,3 +54,8 @@ fabric.properties
 # modules.xml
 # .idea/misc.xml
 # *.ipr
+
+# Python
+**__pycache__/
+venv
+.venv

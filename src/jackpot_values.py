@@ -5,7 +5,8 @@ import re
 import urllib.request
 from pathlib import Path
 import xml.etree.ElementTree as ET
-from html.parser import HTMLParser
+
+from html_xpath import iter_xpath_text
 
 
 REQUEST_HEADERS = {
@@ -31,10 +32,7 @@ POWERBALL_JACKPOT_XPATHS = [
     "//*[@id=\"next-drawing\"]/div/div/div[2]/span[2]"
 ]
 
-VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
-             "link", "meta", "source", "track", "wbr"}
-_XPATH_SEGMENT_RE = re.compile(r"^(\w+)(?:\[(\d+)\])?$")
-_XPATH_ID_PREFIX_RE = re.compile(r'^//\*\[@id="([^"]+)"\](.*)$')
+JACKPOT_PATTERN = r"\$?(\d+(?:\.\d+)?)\s*(Million|Billion)"
 
 
 def fetch_html(url):
@@ -45,7 +43,7 @@ def fetch_html(url):
 
 def normalize_jackpot(raw_text):
     cleaned = " ".join(raw_text.split())
-    match = re.search(r"(\d+(?:\.\d+)?)\s*(Million|Billion)", cleaned, re.IGNORECASE)
+    match = re.search(JACKPOT_PATTERN, cleaned, re.IGNORECASE)
     if not match:
         return 0.0
 
@@ -56,104 +54,12 @@ def normalize_jackpot(raw_text):
     return value * 1_000_000.0
 
 
-class _Node:
-    def __init__(self, tag, attrs=None, parent=None):
-        self.tag = tag
-        self.attrs = attrs or {}
-        self.parent = parent
-        self.children = []
-        self.text_parts = []
-
-    def text_content(self):
-        parts = []
-        stack = [self]
-        while stack:
-            node = stack.pop(0)
-            parts.extend(node.text_parts)
-            stack = list(node.children) + stack
-        return " ".join(p for p in parts if p.strip())
-
-
-class _DomBuilder(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.root = _Node("__root__")
-        self.current = self.root
-
-    def handle_starttag(self, tag, attrs):
-        node = _Node(tag, dict(attrs), self.current)
-        self.current.children.append(node)
-        if tag not in VOID_TAGS:
-            self.current = node
-
-    def handle_endtag(self, tag):
-        node = self.current
-        while node is not self.root and node.tag != tag:
-            node = node.parent
-        if node is not self.root:
-            self.current = node.parent
-
-    def handle_startendtag(self, tag, attrs):
-        node = _Node(tag, dict(attrs), self.current)
-        self.current.children.append(node)
-
-    def handle_data(self, data):
-        self.current.text_parts.append(data)
-
-
-def _find_by_id(node, target_id):
-    if node.attrs.get("id") == target_id:
-        return node
-    for child in node.children:
-        result = _find_by_id(child, target_id)
-        if result is not None:
-            return result
-    return None
-
-
-def _navigate_from(start, path):
-    current = [start]
-    for segment in (s for s in path.split("/") if s):
-        match = _XPATH_SEGMENT_RE.match(segment)
-        if not match:
-            return []
-        tag = match.group(1)
-        index = int(match.group(2)) if match.group(2) else 1
-        next_nodes = []
-        for node in current:
-            matching = [c for c in node.children if c.tag == tag]
-            if len(matching) >= index:
-                next_nodes.append(matching[index - 1])
-        current = next_nodes
-        if not current:
-            return []
-    return current
-
-
-def _xpath_select(root, xpath):
-    id_match = _XPATH_ID_PREFIX_RE.match(xpath)
-    if id_match:
-        target_id = id_match.group(1)
-        remainder = id_match.group(2)
-        start = _find_by_id(root, target_id)
-        if start is None:
-            return []
-        return _navigate_from(start, remainder)
-    if xpath.startswith("/"):
-        return _navigate_from(root, xpath)
-    return []
-
-
 def extract_jackpot_from_xpath(html, xpaths):
     try:
-        builder = _DomBuilder()
-        builder.feed(html)
-
-        for xpath in xpaths:
-            for node in _xpath_select(builder.root, xpath):
-                normalized = normalize_jackpot(node.text_content())
-                if normalized > 0.0:
-                    return normalized
+        for text in iter_xpath_text(html, xpaths):
+            normalized = normalize_jackpot(text)
+            if normalized > 0.0:
+                return normalized
     except Exception:
         pass
 
