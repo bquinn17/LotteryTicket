@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 from datetime import datetime
+import gzip
 import json
 import re
 import urllib.request
+import zlib
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -12,7 +14,7 @@ from html_xpath import iter_xpath_text
 REQUEST_HEADERS = {
     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1",
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "accept-encoding": "gzip, deflate, br, zstd",
+    "accept-encoding": "gzip, deflate",
     "accept-language": "en-US,en;q=0.9",
     "cache-control": "max-age=0",
 }
@@ -38,7 +40,19 @@ JACKPOT_PATTERN = r"\$?(\d+(?:\.\d+)?)\s*(Million|Billion)"
 def fetch_html(url):
     request = urllib.request.Request(url, headers=REQUEST_HEADERS)
     with urllib.request.urlopen(request, timeout=15) as response:
-        return response.read().decode("utf-8")
+        raw = response.read()
+        encoding = (response.headers.get("Content-Encoding") or "").lower()
+        if encoding == "gzip":
+            raw = gzip.decompress(raw)
+        elif encoding == "deflate":
+            raw = zlib.decompress(raw)
+
+        charset = "utf-8"
+        content_type = response.headers.get("Content-Type", "")
+        if "charset=" in content_type:
+            charset = content_type.split("charset=", 1)[1].split(";", 1)[0].strip() or "utf-8"
+
+        return raw.decode(charset, errors="replace")
 
 
 def normalize_jackpot(raw_text):
@@ -67,6 +81,7 @@ def extract_jackpot_from_xpath(html, xpaths):
 
 
 def fetch_megamillions():
+    print("Fetching MegaMillions...")
     xml_payload = fetch_html(MEGAMILLIONS_API_URL)
     root = ET.fromstring(xml_payload)
     inner_json = (root.text or "").strip()
@@ -87,7 +102,6 @@ def fetch_powerball():
     with open("powerball.html", "w", encoding="utf-8") as f:
         f.write(html)
     xpath_value = extract_jackpot_from_xpath(html, POWERBALL_JACKPOT_XPATHS)
-    print("xpath value: ", xpath_value)
     if xpath_value:
         return xpath_value
     return 0.0
@@ -97,9 +111,9 @@ def get_jackpots():
     values = {"megamillions": 0.0, "powerball": 0.0}
 
     try:
-        # TODO: Remove this once the API is working again
-        values["megamillions"] = 150000000.0 # fetch_megamillions()
-    except Exception:
+        values["megamillions"] = fetch_megamillions()
+    except Exception as ex:
+        print("exception thrown by fetch_megamillions: ", ex)
         pass
 
     try:
