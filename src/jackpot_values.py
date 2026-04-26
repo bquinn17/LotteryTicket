@@ -2,7 +2,9 @@
 from datetime import datetime
 import gzip
 import json
+import random
 import re
+import time
 import urllib.request
 import zlib
 from pathlib import Path
@@ -96,14 +98,27 @@ def fetch_megamillions():
     return float(next_prize_pool)
 
 
+POWERBALL_MAX_RETRIES = 3
+POWERBALL_RETRY_DELAY = 5
+
+
 def fetch_powerball():
     print("Fetching Powerball...")
-    html = fetch_html(POWERBALL_URL)
-    # with open("powerball.html", "w", encoding="utf-8") as f:
-    #     f.write(html)
-    xpath_value = extract_jackpot_from_xpath(html, POWERBALL_JACKPOT_XPATHS)
-    if xpath_value:
-        return xpath_value
+    for attempt in range(POWERBALL_MAX_RETRIES):
+        try:
+            html = fetch_html(POWERBALL_URL)
+            with open("powerball.html", "w", encoding="utf-8") as f:
+                f.write(html)
+            xpath_value = extract_jackpot_from_xpath(html, POWERBALL_JACKPOT_XPATHS)
+            if xpath_value:
+                return xpath_value
+            print(f"Powerball response unparsable on attempt {attempt + 1}")
+        except Exception as ex:
+            print(f"Powerball fetch failed on attempt {attempt + 1}: {ex}")
+
+        if attempt < POWERBALL_MAX_RETRIES - 1:
+            time.sleep(POWERBALL_RETRY_DELAY + random.uniform(0, 2))
+
     return 0.0
 
 
