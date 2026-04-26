@@ -579,6 +579,73 @@ main, header, footer {
     to   { opacity: 1; transform: translateY(0); }
 }
 
+.drawing-block {
+    margin-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.drawing-summary {
+    list-style: none;
+    cursor: pointer;
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.drawing-summary::-webkit-details-marker { display: none; }
+
+.drawing-summary::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    margin-right: 2px;
+}
+
+.drawing-block[open] .drawing-summary::after {
+    transform: rotate(-135deg);
+}
+
+.drawing-summary:hover {
+    color: var(--text-dim);
+}
+
+.drawing-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 14px;
+}
+
+.schedule-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.schedule-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.schedule-value {
+    font-size: 13px;
+    color: var(--text);
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.001s !important;

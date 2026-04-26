@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from datetime import datetime
+from datetime import datetime, timedelta
 import gzip
 import json
 import random
@@ -8,6 +8,7 @@ import time
 import urllib.request
 import zlib
 from pathlib import Path
+from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 from html_xpath import iter_xpath_text
@@ -25,7 +26,13 @@ DATA_DIR = ROOT_DIR / "data"
 CURRENT_JACKPOTS_PATH = DATA_DIR / "current_jackpots.json"
 MEGAMILLIONS_CSV_PATH = DATA_DIR / "past_megamillions_jackpots.csv"
 POWERBALL_CSV_PATH = DATA_DIR / "past_powerball_jackpots.csv"
-CSV_HEADER = "datetime,jackpot estimate"
+CSV_HEADER = "datetime,jackpot estimate,next drawing"
+
+EASTERN = ZoneInfo("America/New_York")
+MM_DRAWING_DAYS = {1, 4}       # Tuesday=1, Friday=4
+MM_DRAWING_HOUR, MM_DRAWING_MINUTE = 23, 0
+PB_DRAWING_DAYS = {0, 2, 5}    # Monday=0, Wednesday=2, Saturday=5
+PB_DRAWING_HOUR, PB_DRAWING_MINUTE = 22, 59
 MEGAMILLIONS_URL = "https://www.megamillions.com/"
 MEGAMILLIONS_API_URL = "https://www.megamillions.com/cmspages/utilservice.asmx/GetLatestDrawData"
 POWERBALL_URL = "https://www.powerball.com/"
@@ -79,6 +86,17 @@ def extract_jackpot_from_xpath(html, xpaths):
     except Exception:
         pass
 
+    return None
+
+
+def next_drawing_dt(drawing_days, hour, minute):
+    now = datetime.now(EASTERN)
+    for days_ahead in range(7):
+        candidate = now + timedelta(days=days_ahead)
+        if candidate.weekday() in drawing_days:
+            draw = candidate.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            if draw > now:
+                return draw
     return None
 
 
@@ -154,8 +172,8 @@ def parse_latest_jackpot(csv_path):
             continue
         if stripped.lower() == CSV_HEADER:
             continue
-        parts = stripped.split(",", 1)
-        if len(parts) == 2:
+        parts = stripped.split(",", 2)
+        if len(parts) >= 2:
             try:
                 return float(parts[1].strip())
             except ValueError:
@@ -168,14 +186,15 @@ def parse_latest_jackpot(csv_path):
     return None
 
 
-def prepend_jackpot_if_changed(csv_path, jackpot_value):
+def prepend_jackpot_if_changed(csv_path, jackpot_value, next_draw=None):
     jackpot_value = float(jackpot_value)
     latest = parse_latest_jackpot(csv_path)
     if latest is not None and abs(latest - jackpot_value) < 0.000001:
         return
 
     timestamp = datetime.now().isoformat(sep=" ", timespec="seconds")
-    new_row = f"{timestamp},{jackpot_value:.2f}\n"
+    next_draw_str = next_draw.strftime("%Y-%m-%d %H:%M %Z") if next_draw else ""
+    new_row = f"{timestamp},{jackpot_value:.2f},{next_draw_str}\n"
     existing_lines = []
     if csv_path.exists():
         existing_lines = csv_path.read_text(encoding="utf-8").splitlines()
@@ -192,8 +211,10 @@ def prepend_jackpot_if_changed(csv_path, jackpot_value):
 
 
 def update_history_files(values):
-    prepend_jackpot_if_changed(MEGAMILLIONS_CSV_PATH, values["megamillions"])
-    prepend_jackpot_if_changed(POWERBALL_CSV_PATH, values["powerball"])
+    mm_next = next_drawing_dt(MM_DRAWING_DAYS, MM_DRAWING_HOUR, MM_DRAWING_MINUTE)
+    pb_next = next_drawing_dt(PB_DRAWING_DAYS, PB_DRAWING_HOUR, PB_DRAWING_MINUTE)
+    prepend_jackpot_if_changed(MEGAMILLIONS_CSV_PATH, values["megamillions"], mm_next)
+    prepend_jackpot_if_changed(POWERBALL_CSV_PATH, values["powerball"], pb_next)
 
 
 def write_current_jackpots(values):

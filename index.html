@@ -17,7 +17,6 @@
 
     <body>
         <header class="hero">
-            <span class="eyebrow">Probability · Expected Value</span>
             <h1>How much is your lottery ticket really worth?</h1>
         </header>
 
@@ -42,6 +41,24 @@
                     <div class="jackpot-value" id="p_jackpot">$</div>
                 </div>
 
+                <details class="drawing-block">
+                    <summary class="drawing-summary">Drawing Schedule</summary>
+                    <div class="drawing-rows">
+                        <div class="schedule-row">
+                            <span class="schedule-label">Drawing Days</span>
+                            <span class="schedule-value">Monday, Wednesday &amp; Saturday</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span class="schedule-label">Drawing Time</span>
+                            <span class="schedule-value">10:59 PM ET</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span class="schedule-label">Ticket Cutoff</span>
+                            <span class="schedule-value">~10:00 PM ET (varies by state)</span>
+                        </div>
+                    </div>
+                </details>
+
             </article>
 
             <article class="card mm">
@@ -63,6 +80,24 @@
                     <div class="jackpot-label">Current Estimated Jackpot</div>
                     <div class="jackpot-value" id="m_jackpot">$</div>
                 </div>
+
+                <details class="drawing-block">
+                    <summary class="drawing-summary">Drawing Schedule</summary>
+                    <div class="drawing-rows">
+                        <div class="schedule-row">
+                            <span class="schedule-label">Drawing Days</span>
+                            <span class="schedule-value">Tuesday &amp; Friday</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span class="schedule-label">Drawing Time</span>
+                            <span class="schedule-value">11:00 PM ET</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span class="schedule-label">Ticket Cutoff</span>
+                            <span class="schedule-value">~10:45 PM ET (varies by state)</span>
+                        </div>
+                    </div>
+                </details>
 
             </article>
         </main>
@@ -215,6 +250,7 @@
                 .catch(function() {
                     initializeValues({ megamillions: 0.0, powerball: 0.0 });
                 });
+
         </script>
     </body>
 </html>
