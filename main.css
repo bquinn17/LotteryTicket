@@ -61,9 +61,24 @@ body::before {
     100% { transform: translate3d(0, 0, 0); }
 }
 
-main, header {
+main, header, footer {
     position: relative;
     z-index: 1;
+}
+
+.page-footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px 24px 72px;
+    text-align: center;
+    animation: fadeUp 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: 0.75s;
+}
+
+.page-footer .lede {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-bottom: 18px;
 }
 
 .hero {
@@ -269,16 +284,6 @@ main, header {
     overflow: hidden;
 }
 
-.jackpot-block::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-    transform: translateX(-100%);
-    animation: shimmer 6.5s ease-in-out infinite;
-    pointer-events: none;
-}
-
 @keyframes shimmer {
     0%, 100% { transform: translateX(-100%); }
     50%      { transform: translateX(100%); }
@@ -301,7 +306,6 @@ main, header {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: pulse 5s ease-in-out infinite;
 }
 
 .card.mm .jackpot-value { --grad-1: var(--mm-1); }
@@ -348,11 +352,22 @@ main, header {
     color: var(--text);
 }
 
+.stat.profit::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 6.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
 .stat.profit .stat-value {
     background: linear-gradient(120deg, #ffffff, var(--grad-1, #fff));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    animation: pulse 5s ease-in-out infinite;
 }
 
 .card.mm .stat.profit .stat-value { --grad-1: var(--mm-1); }
