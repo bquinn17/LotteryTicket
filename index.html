@@ -85,8 +85,8 @@
 
         <script>
             function initializeValues(data) {
-                calculateValue("m", data.megamillions, 1, 1);
-                calculateValue("p", data.powerball, 2, 1);
+                calculateValue("m", data.megamillions, 1);
+                calculateValue("p", data.powerball, 1);
             }
 
             fetch("data/current_jackpots.json")
