@@ -180,8 +180,8 @@ main, header, footer {
     animation: fadeUp 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-.card.mm { animation-delay: 0.35s; }
-.card.pb { animation-delay: 0.6s; }
+.card.mm { animation-delay: 0.6s; }
+.card.pb { animation-delay: 0.35s; }
 
 .card::before {
     content: "";
@@ -372,6 +372,207 @@ main, header, footer {
 
 .card.mm .stat.profit .stat-value { --grad-1: var(--mm-1); }
 .card.pb .stat.profit .stat-value { --grad-1: var(--pb-1); }
+
+.explainer {
+    max-width: 1080px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: 0.85s;
+}
+
+.explainer details {
+    border-radius: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.explainer summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    user-select: none;
+    transition: background 0.2s ease;
+}
+
+.explainer summary::-webkit-details-marker { display: none; }
+
+.explainer summary:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.explainer .summary-text {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    color: var(--text);
+}
+
+.explainer .chevron {
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--text-dim);
+    border-bottom: 2px solid var(--text-dim);
+    transform: rotate(45deg);
+    transition: transform 0.25s ease;
+    margin-right: 6px;
+}
+
+.explainer details[open] .chevron {
+    transform: rotate(-135deg);
+}
+
+.explainer-body {
+    padding: 4px 28px 28px;
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.explainer-body p {
+    margin-bottom: 14px;
+}
+
+.explainer-body h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 22px 0 10px;
+    letter-spacing: -0.005em;
+}
+
+.explainer-body h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.explainer-body ul {
+    padding-left: 20px;
+    margin-bottom: 14px;
+}
+
+.explainer-body li {
+    margin-bottom: 6px;
+}
+
+.explainer-body strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.explainer-body .muted {
+    color: var(--muted);
+}
+
+.explainer-body .small {
+    font-size: 12px;
+}
+
+.formula {
+    font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 6px 0 18px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: pre;
+}
+
+.explainer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 8px 0 8px;
+}
+
+@media (max-width: 780px) {
+    .explainer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.explainer-card {
+    padding: 18px 18px 12px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    min-width: 0;
+}
+
+.explainer-card p {
+    margin-bottom: 8px;
+}
+
+.explainer-card .table-scroll {
+    margin: 10px -18px 0;
+    padding: 0 18px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.explainer-card .table-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.explainer-card .table-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.explainer-card table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+}
+
+.explainer-card th,
+.explainer-card td {
+    padding: 6px 8px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    white-space: nowrap;
+}
+
+.explainer-card th:first-child,
+.explainer-card td:first-child {
+    text-align: left;
+    color: var(--text);
+}
+
+.explainer-card th {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.explainer-card tfoot td {
+    border-bottom: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-weight: 700;
+    color: var(--text);
+    padding-top: 10px;
+}
 
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }

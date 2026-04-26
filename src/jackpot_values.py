@@ -99,8 +99,8 @@ def fetch_megamillions():
 def fetch_powerball():
     print("Fetching Powerball...")
     html = fetch_html(POWERBALL_URL)
-    with open("powerball.html", "w", encoding="utf-8") as f:
-        f.write(html)
+    # with open("powerball.html", "w", encoding="utf-8") as f:
+    #     f.write(html)
     xpath_value = extract_jackpot_from_xpath(html, POWERBALL_JACKPOT_XPATHS)
     if xpath_value:
         return xpath_value
