@@ -1,3 +1,5 @@
+# NOTE: This project was moved to https://github.com/bquinn17/bquinn17.github.io/tree/main/lottery
+
 # LotteryTicket
 Webpage that calculates the expected value of a lottery ticket based on the current estimated jackpot.
 
