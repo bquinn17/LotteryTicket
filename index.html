@@ -251,6 +251,33 @@
                     initializeValues({ megamillions: 0.0, powerball: 0.0 });
                 });
 
+            document.querySelectorAll(".drawing-block").forEach(function(details) {
+                var rows = details.querySelector(".drawing-rows");
+                rows.style.maxHeight = "0px";
+
+                details.querySelector(".drawing-summary").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    if (details.open) {
+                        rows.style.maxHeight = rows.scrollHeight + "px";
+                        rows.getBoundingClientRect();
+                        rows.style.maxHeight = "0px";
+                        rows.addEventListener("transitionend", function onEnd() {
+                            rows.removeEventListener("transitionend", onEnd);
+                            details.removeAttribute("open");
+                        });
+                    } else {
+                        details.setAttribute("open", "");
+                        rows.style.maxHeight = "0px";
+                        rows.getBoundingClientRect();
+                        rows.style.maxHeight = rows.scrollHeight + "px";
+                        rows.addEventListener("transitionend", function onEnd() {
+                            rows.removeEventListener("transitionend", onEnd);
+                            rows.style.maxHeight = "";
+                        });
+                    }
+                });
+            });
+
         </script>
     </body>
 </html>

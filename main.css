@@ -149,6 +149,7 @@ main, header, footer {
 .cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
     gap: 28px;
     max-width: 1080px;
     margin: 16px auto 80px;
@@ -626,6 +627,8 @@ main, header, footer {
     flex-direction: column;
     gap: 10px;
     padding-top: 14px;
+    overflow: hidden;
+    transition: max-height 0.28s ease;
 }
 
 .schedule-row {
